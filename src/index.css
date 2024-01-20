@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+html {
+  background: #ffc600;
+  font-family: "helvetica";
+  font-size: 20px;
+  font-weight: 200;
+}
