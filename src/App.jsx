@@ -8,27 +8,35 @@ const endPoint =
 
 function App() {
   const cities = useDataLoader(endPoint);
+  const [keyword, setKeyword] = useState("");
   const [displayCities, setDisplayCities] = useState([]);
 
   const handleInput = (e) => {
-    const keyword = e.target.value;
-    const regex = new RegExp(keyword, "gi");
+    const newKeyword = e.target.value;
+    setKeyword(newKeyword);
 
-    if (keyword.length) {
-      const newDisplayCities = cities.filter((cityInfo) => {
-        const { city, state } = cityInfo;
-        return regex.test(city) || regex.test(state);
-      });
-      if (newDisplayCities.length) {
+    if (newKeyword.length) {
+      if (newKeyword.trim()) {
+        const newDisplayCities = cities.filter((cityInfo) => {
+          const { city, state } = cityInfo;
+          const regex = new RegExp(newKeyword, "gi");
+          return regex.test(city) || regex.test(state);
+        });
         setDisplayCities(newDisplayCities);
-      } else {
-        setDisplayCities([
-          { city: `There is no city or state including "${keyword}"` },
-        ]);
+
+        if (newDisplayCities.length === 0) {
+          setDisplayCities([
+            { city: `There is no city or state including "${newKeyword}". 🤔` },
+          ]);
+        }
+        return;
       }
-    } else {
-      setDisplayCities([]);
+
+      setDisplayCities([{ city: "You shouldn't insert white space. 😅" }]);
+      return;
     }
+
+    setDisplayCities([]);
   };
 
   return (
@@ -39,6 +47,7 @@ function App() {
           className="search p-5 text-center outline-0 border-solid border-[#f7f7f7] border-[10px] w-[120%] -left-[10%] relative top-[10px] z-[2] rounded-[5px] text-3xl shadow-input"
           placeholder="City or State"
           onChange={handleInput}
+          value={keyword}
         />
         <ul className="suggestions relative">
           {displayCities.length !== 0 ? (
