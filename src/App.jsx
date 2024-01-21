@@ -1,33 +1,63 @@
 import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+import FilteredListItems from "./Components/ListItems/FilteredListItems";
+import InitialListItems from "./Components/ListItems/InitialListItems";
+import useDataLoader from "./Hooks/useDataLoader";
+
+const endPoint =
+  "https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json";
 
 function App() {
-  const [count, setCount] = useState(0);
+  const cities = useDataLoader(endPoint);
+  const [keyword, setKeyword] = useState("");
+  const [displayCities, setDisplayCities] = useState([]);
+
+  const handleInput = (e) => {
+    const newKeyword = e.target.value;
+    setKeyword(newKeyword);
+
+    if (newKeyword.length) {
+      if (newKeyword.trim()) {
+        const newDisplayCities = cities.filter((cityInfo) => {
+          const { city, state } = cityInfo;
+          const regex = new RegExp(newKeyword, "gi");
+          return regex.test(city) || regex.test(state);
+        });
+        setDisplayCities(newDisplayCities);
+
+        if (newDisplayCities.length === 0) {
+          setDisplayCities([
+            { city: `There is no city or state including "${newKeyword}". 🤔` },
+          ]);
+        }
+        return;
+      }
+
+      setDisplayCities([{ city: "You shouldn't insert white space. 😅" }]);
+      return;
+    }
+
+    setDisplayCities([]);
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank" rel="noreferrer">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    cities && (
+      <form className="search-form max-w-[400px] my-[50px] mx-auto">
+        <input
+          type="text"
+          className="search p-5 text-center outline-0 border-solid border-[#f7f7f7] border-[10px] w-[120%] -left-[10%] relative top-[10px] z-[2] rounded-[5px] text-3xl shadow-input"
+          placeholder="City or State"
+          onChange={handleInput}
+          value={keyword}
+        />
+        <ul className="suggestions relative">
+          {displayCities.length !== 0 ? (
+            <FilteredListItems list={displayCities} />
+          ) : (
+            <InitialListItems />
+          )}
+        </ul>
+      </form>
+    )
   );
 }
 
