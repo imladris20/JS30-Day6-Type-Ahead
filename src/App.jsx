@@ -12,11 +12,12 @@ function App() {
 
   const handleInput = (e) => {
     const keyword = e.target.value;
+    const regex = new RegExp(keyword, "gi");
 
     if (keyword.length) {
       const newDisplayCities = cities.filter((cityInfo) => {
         const { city, state } = cityInfo;
-        return city.includes(keyword) || state.includes(keyword);
+        return regex.test(city) || regex.test(state);
       });
       if (newDisplayCities.length) {
         setDisplayCities(newDisplayCities);
