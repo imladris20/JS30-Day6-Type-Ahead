@@ -5,8 +5,6 @@
 html {
   background: #ffc600;
   font-family: "helvetica";
-  font-size: 20px;
-  font-weight: 200;
 }
 
 .suggestions li:nth-child(even) {

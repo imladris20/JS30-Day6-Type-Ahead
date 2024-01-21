@@ -36,9 +36,9 @@ function App() {
       <form className="search-form max-w-[400px] my-[50px] mx-auto">
         <input
           type="text"
-          className="search p-5 text-center outline-0 border-solid border-[#f7f7f7] border-[10px] w-[120%] -left-[10%] relative top-[10px] z-[2] rounded-[5px] text-[40px] shadow-input"
+          className="search p-5 text-center outline-0 border-solid border-[#f7f7f7] border-[10px] w-[120%] -left-[10%] relative top-[10px] z-[2] rounded-[5px] text-3xl shadow-input"
           placeholder="City or State"
-          onChange={(e) => handleInput(e)}
+          onChange={handleInput}
         />
         <ul className="suggestions relative">
           {displayCities.length !== 0 ? (
