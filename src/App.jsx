@@ -4,7 +4,7 @@ import InitialListItems from "./Components/ListItems/InitialListItems";
 import useDataLoader from "./Hooks/useDataLoader";
 
 const endPoint =
-  "https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json";
+  "https://cities-97712-default-rtdb.asia-southeast1.firebasedatabase.app/cities.json";
 
 function App() {
   const cities = useDataLoader(endPoint);
