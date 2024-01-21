@@ -5,7 +5,7 @@ const FilteredListItems = ({ list }) => {
     return (
       <li
         key={index}
-        className="bg-white border-b-[1px] border-solid border-[#d8d8d8] font-serif p-5 flex items-center capitalize transition-colors duration-200 even:bg-gradient-to-b odd:bg-gradient-to-t from-white to-[#efefef] shadow-suggestions"
+        className="bg-white border-b-[1px] border-solid border-[#d8d8d8] font-serif p-5 flex items-center transition-colors duration-200 even:bg-gradient-to-b odd:bg-gradient-to-t from-white to-[#efefef] shadow-suggestions"
       >
         <p className="text-base">{cityInfo?.city}</p>
         {cityInfo?.state && <p className="text-base">, {cityInfo?.state}</p>}
