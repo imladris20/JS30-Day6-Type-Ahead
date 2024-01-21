@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { addCommasToNumber } from "./utils/utils";
 
 function App() {
   const [cities, setCities] = useState([]);
@@ -59,7 +60,7 @@ function App() {
                 <p className="text-base">{cityInfo?.city}</p>
                 <p className="text-base">, {cityInfo?.state}</p>
                 <p className="text-gray-400 text-xs ml-auto">
-                  {cityInfo?.population}
+                  {addCommasToNumber(cityInfo?.population)}
                 </p>
               </li>
             );
