@@ -4,7 +4,7 @@ const InitialListItems = () => {
   return initialMessages.map((message, index) => {
     return (
       <li
-        className="bg-white border-b-[1px] border-solid border-[#d8d8d8] font-serif p-5 flex justify-between items-center transition-colors duration-200 even:bg-gradient-to-b odd:bg-gradient-to-t from-white to-[#efefef] shadow-suggestions"
+        className="flex items-center justify-between border-b-[1px] border-solid border-[#d8d8d8] bg-white from-white to-[#efefef] p-5 font-serif text-sm shadow-suggestions transition-colors duration-200 odd:bg-gradient-to-t even:bg-gradient-to-b sm:text-lg"
         key={index}
       >
         {message}
