@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import FilteredListItems from "./Components/ListItems/FilteredListItems";
 import InitialListItems from "./Components/ListItems/InitialListItems";
 import useDataLoader from "./Hooks/useDataLoader";
+import { debounce } from "./utils/utils";
 
 const endPoint =
   "https://cities-97712-default-rtdb.asia-southeast1.firebasedatabase.app/cities.json";
@@ -11,10 +12,7 @@ function App() {
   const [keyword, setKeyword] = useState("");
   const [displayCities, setDisplayCities] = useState([]);
 
-  const handleInput = (e) => {
-    const newKeyword = e.target.value;
-    setKeyword(newKeyword);
-
+  const filterDisplayCities = debounce((newKeyword) => {
     if (newKeyword.length) {
       if (newKeyword.trim()) {
         const newDisplayCities = cities.filter((cityInfo) => {
@@ -26,7 +24,9 @@ function App() {
 
         if (newDisplayCities.length === 0) {
           setDisplayCities([
-            { city: `There is no city or state including "${newKeyword}". 🤔` },
+            {
+              city: `There is no city or state including "${newKeyword}". 🤔`,
+            },
           ]);
         }
         return;
@@ -37,7 +37,17 @@ function App() {
     }
 
     setDisplayCities([]);
-  };
+  }, 1000);
+
+  const handleInput = useCallback(
+    (e) => {
+      const newKeyword = e.target.value;
+      setKeyword(newKeyword);
+
+      filterDisplayCities(newKeyword);
+    },
+    [filterDisplayCities],
+  );
 
   return (
     cities && (
